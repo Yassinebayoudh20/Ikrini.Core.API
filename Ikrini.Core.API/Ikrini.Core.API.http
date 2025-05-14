@@ -1,0 +1,6 @@
+@Ikrini.Core.API_HostAddress = https://localhost:7245
+
+
+GET {{Ikrini.Core.API_HostAddress}}/api/home
+
+###
