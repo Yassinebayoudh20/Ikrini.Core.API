@@ -17,9 +17,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<IQueryable<Car>> RetrieveAllCarsAsync()
-        {
-            throw new System.NotImplementedException();
-        }
+        public async ValueTask<IQueryable<Car>> RetrieveAllCarsAsync() =>
+             await this.storageBroker.SelectAllCarsAsync();
     }
 }

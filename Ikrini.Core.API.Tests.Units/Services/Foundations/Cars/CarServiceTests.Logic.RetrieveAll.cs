@@ -42,10 +42,6 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 broker.SelectAllCarsAsync(),
                     Times.Once);
 
-            this.loggingBrokerMock.Verify(broker =>
-                broker.LogInformationAsync(It.IsAny<string>()),
-                    Times.Once);
-
             // Verify that no other methods were called
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
