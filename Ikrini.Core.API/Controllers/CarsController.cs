@@ -12,7 +12,7 @@ namespace Ikrini.Core.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    internal class CarsController : RESTFulController
+    public class CarsController : RESTFulController
     {
         private readonly ICarService carService;
 

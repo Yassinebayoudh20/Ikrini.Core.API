@@ -4,3 +4,7 @@
 GET {{Ikrini.Core.API_HostAddress}}/api/home
 
 ###
+
+GET {{Ikrini.Core.API_HostAddress}}/api/cars
+
+###
