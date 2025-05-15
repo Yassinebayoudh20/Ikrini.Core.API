@@ -4,6 +4,7 @@
 
 using Ikrini.Core.API.Brokers.Loggings;
 using Ikrini.Core.API.Brokers.Storages;
+using Ikrini.Core.API.Services.Foundations.Cars;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ webApplicationBuilder.Services.AddDbContext<StorageBroker>();
 
 webApplicationBuilder.Services.AddTransient<ILoggingBroker, LoggingBroker>();
 webApplicationBuilder.Services.AddTransient<IStorageBroker, StorageBroker>();
+webApplicationBuilder.Services.AddTransient<ICarService, CarService>();
 
 
 WebApplication webApplication = webApplicationBuilder.Build();

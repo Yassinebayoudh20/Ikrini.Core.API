@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Brokers.Storages
 {
-    public partial class StorageBroker : EFxceptionsContext, IStorageBroker
+    internal partial class StorageBroker : EFxceptionsContext, IStorageBroker
     {
         private readonly IConfiguration configuration;
 

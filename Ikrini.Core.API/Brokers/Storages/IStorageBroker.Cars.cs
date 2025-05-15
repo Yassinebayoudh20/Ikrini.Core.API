@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Brokers.Storages
 {
-    public partial interface IStorageBroker
+    internal partial interface IStorageBroker
     {
         ValueTask<IQueryable<Car>> SelectAllCarsAsync();
         ValueTask<Car> InsertCarAsync(Car car);

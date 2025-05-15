@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Brokers.Loggings
 {
-    public class LoggingBroker : ILoggingBroker
+    internal class LoggingBroker : ILoggingBroker
     {
         private readonly ILogger<LoggingBroker> logger;
 
@@ -37,14 +37,14 @@ namespace Ikrini.Core.API.Brokers.Loggings
             throw new NotImplementedException();
         }
 
-        public async ValueTask LogErrorAsync(string message, Exception exception)
+        public async ValueTask LogErrorAsync(Exception exception)
         {
-            this.logger.LogError(exception, message);
+            this.logger.LogError(exception, exception.Message);
         }
 
-        public async ValueTask LogCriticalAsync(string message, Exception exception)
+        public async ValueTask LogCriticalAsync(Exception exception)
         {
-            this.logger.LogCritical(exception, message);
+            this.logger.LogCritical(exception,exception.Message);
         }
     }
 }

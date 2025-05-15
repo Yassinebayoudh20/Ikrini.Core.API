@@ -23,4 +23,9 @@
 		<PackageReference Include="RESTFulSense" Version="3.2.0" />
 		<PackageReference Include="Xeption" Version="2.8.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Ikrini.Core.API.Tests.Units" />
+		<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+	</ItemGroup>
 </Project>
