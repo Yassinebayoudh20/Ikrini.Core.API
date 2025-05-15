@@ -37,9 +37,9 @@ namespace Ikrini.Core.API.Brokers.Loggings
             throw new NotImplementedException();
         }
 
-        public async ValueTask LogErrorAsync(string message, Exception exception)
+        public async ValueTask LogErrorAsync(Exception exception)
         {
-            this.logger.LogError(exception, message);
+            this.logger.LogError(exception, exception.Message);
         }
 
         public async ValueTask LogCriticalAsync(Exception exception)

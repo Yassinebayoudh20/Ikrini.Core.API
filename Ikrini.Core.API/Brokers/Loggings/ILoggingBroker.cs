@@ -14,7 +14,7 @@ namespace Ikrini.Core.API.Brokers.Loggings
         ValueTask LogTraceAsync(string message);
         ValueTask LogDebugAsync(string message);
         ValueTask LogWarningAsync(string message);
-        ValueTask LogErrorAsync(string message, Exception exception);
+        ValueTask LogErrorAsync(Exception exception);
         ValueTask LogCriticalAsync(Exception exception);
     }
 }

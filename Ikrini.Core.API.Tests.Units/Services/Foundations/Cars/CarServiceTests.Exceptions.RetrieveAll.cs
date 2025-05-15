@@ -77,7 +77,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
             FailedCarServiceException expectedCarServiceException =
                 new FailedCarServiceException(
-                    message: "Failed Car service occurred , contact support.",
+                    message: "Failed Car service occurred, contact support.",
                     innerException: serviceException);
 
             CarServiceException expectedcarServiceException =
@@ -107,7 +107,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogCriticalAsync(It.Is(SameExceptionAs( //check if the exception is same as expected)
+                broker.LogErrorAsync(It.Is(SameExceptionAs( //check if the exception is same as expected)
                     expectedcarServiceException))),
                         Times.Once);
 
