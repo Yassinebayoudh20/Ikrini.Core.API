@@ -1,5 +1,6 @@
 ﻿using Ikrini.Core.API.Controllers;
 using Ikrini.Core.API.Models.Cars;
+using Ikrini.Core.API.Models.Cars.Exceptions;
 using Ikrini.Core.API.Services.Foundations.Cars;
 using Microsoft.Data.SqlClient;
 using Moq;
@@ -34,7 +35,28 @@ namespace Ikrini.Core.API.Tests.Units.Controllers.Cars
             return CreateCarFiller().Create(count: GetRandomNumber()).AsQueryable();
         }
 
-        private int GetRandomNumber() =>
+        public static TheoryData<Xeption> ServerException()
+        {
+            string someMessage = GetRandomString();
+            var someInnerException = new Xeption(someMessage);
+            return new TheoryData<Xeption>
+            {
+                new CarDependencyException(
+                    someMessage,
+                    someInnerException),
+
+                new CarServiceException(
+                    someMessage,
+                    someInnerException),
+
+                //Add More possible Exceptions
+            };
+        }
+
+        private static string GetRandomString() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
+        private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
         private Filler<Car> CreateCarFiller()
