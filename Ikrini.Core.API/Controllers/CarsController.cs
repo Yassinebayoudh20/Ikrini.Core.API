@@ -20,8 +20,13 @@ namespace Ikrini.Core.API.Controllers
         }
 
         [HttpGet]
-        public async ValueTask<ActionResult<IQueryable<Car>>> GetAllCarsAsync() =>
-            NotImplemented("Endpoint not implmented");
+        public async ValueTask<ActionResult<IQueryable<Car>>> GetAllCarsAsync()
+        {
+                IQueryable<Car> retievedCars = 
+                    await this.carService.RetrieveAllCarsAsync();
+
+                return Ok(retievedCars);
+        }
 
     }
 }
