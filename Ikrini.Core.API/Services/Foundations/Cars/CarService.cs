@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Services.Foundations.Cars
 {
-    internal class CarService : ICarService
+    internal partial class CarService : ICarService
     {
         private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;

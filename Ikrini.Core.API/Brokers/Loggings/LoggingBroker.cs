@@ -42,9 +42,9 @@ namespace Ikrini.Core.API.Brokers.Loggings
             this.logger.LogError(exception, message);
         }
 
-        public async ValueTask LogCriticalAsync(string message, Exception exception)
+        public async ValueTask LogCriticalAsync(Exception exception)
         {
-            this.logger.LogCritical(exception, message);
+            this.logger.LogCritical(exception,exception.Message);
         }
     }
 }
