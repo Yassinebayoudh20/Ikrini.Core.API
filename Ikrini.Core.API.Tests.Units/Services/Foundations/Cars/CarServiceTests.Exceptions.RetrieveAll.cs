@@ -66,5 +66,55 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
         }
 
+
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnRetrieveIfServiceFailureOccuredAndLogItAsync()
+        {
+            //Arrange
+
+            Exception serviceException = new Exception();
+
+            FailedCarServiceException expectedCarServiceException =
+                new FailedCarServiceException(
+                    message: "Failed Car service occurred , contact support.",
+                    innerException: serviceException);
+
+            CarServiceException expectedcarServiceException =
+                new CarServiceException(
+                    message: "Car service error occurred, contact support.",
+                    innerException: expectedCarServiceException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectAllCarsAsync())
+                    .ThrowsAsync(serviceException);
+
+            //Act
+
+            ValueTask<IQueryable<Car>> retrieveAllCarsTask =
+                this.carService.RetrieveAllCarsAsync();
+
+            CarServiceException actualCarDependencyException =
+                await Assert.ThrowsAsync<CarServiceException>(retrieveAllCarsTask.AsTask);
+
+            //Assert
+
+            actualCarDependencyException.Should().BeEquivalentTo(
+                expectedcarServiceException);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectAllCarsAsync(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogCriticalAsync(It.Is(SameExceptionAs( //check if the exception is same as expected)
+                    expectedcarServiceException))),
+                        Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+
+        }
+
     }
 }
