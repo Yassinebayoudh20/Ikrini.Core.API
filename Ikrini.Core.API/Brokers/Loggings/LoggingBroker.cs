@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Brokers.Loggings
 {
-    public class LoggingBroker : ILoggingBroker
+    internal class LoggingBroker : ILoggingBroker
     {
         private readonly ILogger<LoggingBroker> logger;
 

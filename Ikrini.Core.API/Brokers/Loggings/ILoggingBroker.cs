@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Brokers.Loggings
 {
-    public interface ILoggingBroker
+    internal interface ILoggingBroker
     {
         ValueTask LogInformationAsync(string message);
         ValueTask LogTraceAsync(string message);
