@@ -17,7 +17,10 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<IQueryable<Car>> RetrieveAllCarsAsync() =>
-             await this.storageBroker.SelectAllCarsAsync();
+        public ValueTask<IQueryable<Car>> RetrieveAllCarsAsync() => 
+            TryCatch(async () =>
+        {
+            return await this.storageBroker.SelectAllCarsAsync();
+        });
     }
 }
