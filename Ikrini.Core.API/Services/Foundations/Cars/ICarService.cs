@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Services.Foundations.Cars
 {
-    internal interface ICarService
+    public interface ICarService
     {
         ValueTask<IQueryable<Car>> RetrieveAllCarsAsync();
     }

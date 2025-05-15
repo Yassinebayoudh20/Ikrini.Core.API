@@ -1,6 +1,7 @@
 ﻿using Ikrini.Core.API.Brokers.Loggings;
 using Ikrini.Core.API.Brokers.Storages;
 using Ikrini.Core.API.Models.Cars;
+using Ikrini.Core.API.Models.Cars.Exceptions;
 using Ikrini.Core.API.Services.Foundations.Cars;
 using Microsoft.Data.SqlClient;
 using Moq;
@@ -46,7 +47,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
         private static Expression<Func<Xeption,bool>> SameExceptionAs(Xeption expectedException) =>
              actualException => actualException.SameExceptionAs(expectedException);
 
-        private int GetRandomNumber() =>
+        private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
         private Filler<Car> CreateCarFiller()
