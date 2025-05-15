@@ -46,7 +46,7 @@ namespace Ikrini.Core.API.Tests.Units.Controllers.Cars
 
             // Assert
 
-            actualActionResult.Should().BeEquivalentTo(expectedInternalServerErrorObjectResult);
+            actualActionResult.ShouldBeEquivalentTo(expectedInternalServerErrorObjectResult);
 
             this.carServiceMock.Verify(service =>
                 service.RetrieveAllCarsAsync(),
