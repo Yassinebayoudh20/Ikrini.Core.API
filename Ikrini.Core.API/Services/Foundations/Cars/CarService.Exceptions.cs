@@ -10,7 +10,7 @@ using Xeptions;
 
 namespace Ikrini.Core.API.Services.Foundations.Cars
 {
-    internal partial class CarService : ICarService
+    public partial class CarService : ICarService
     {
         private delegate ValueTask<IQueryable<Car>> ReturningCarsFunction();
 

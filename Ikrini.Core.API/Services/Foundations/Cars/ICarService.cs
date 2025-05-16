@@ -7,5 +7,6 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
     public interface ICarService
     {
         ValueTask<IQueryable<Car>> RetrieveAllCarsAsync();
+        ValueTask<Car> AddCarAsync(Car car);
     }
 }

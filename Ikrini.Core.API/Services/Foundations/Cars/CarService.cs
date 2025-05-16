@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Services.Foundations.Cars
 {
-    internal partial class CarService : ICarService
+    public partial class CarService : ICarService
     {
         private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
@@ -17,10 +17,15 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<IQueryable<Car>> RetrieveAllCarsAsync() => 
+        public ValueTask<IQueryable<Car>> RetrieveAllCarsAsync() =>
             TryCatch(async () =>
         {
             return await this.storageBroker.SelectAllCarsAsync();
         });
+
+        public async ValueTask<Car> AddCarAsync(Car car)
+        {
+            return await this.storageBroker.InsertCarAsync(car);
+        }
     }
 }
