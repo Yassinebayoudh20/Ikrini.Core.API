@@ -29,7 +29,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
 
         public async ValueTask<Car> AddCarAsync(Car car)
         {
-            throw new System.NotImplementedException();
+            return await this.storageBroker.InsertCarAsync(car);
         }
     }
 }
