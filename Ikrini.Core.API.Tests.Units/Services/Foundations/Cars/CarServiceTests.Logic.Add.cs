@@ -27,28 +27,18 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             broker.InsertCarAsync(inputCar))
                 .ReturnsAsync(insertedCar);
 
-            this.datetimeBrokerMock.Setup(broker => 
-                broker.GetCurrentDateTimeOffsetAsync())
-                .ReturnsAsync(now);
             //Act
-
             Car actualCar = 
                 await this.carService.AddCarAsync(inputCar);
 
             //Assert
-
             actualCar.Should().BeEquivalentTo(expectedCar);
 
             this.storageBrokerMock.Verify(broker => 
                 broker.InsertCarAsync(inputCar), 
                     Times.Once);
 
-            this.datetimeBrokerMock.Verify(broker =>
-                broker.GetCurrentDateTimeOffsetAsync(),
-                    Times.Once);
-
             this.storageBrokerMock.VerifyNoOtherCalls();
-            this.datetimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
