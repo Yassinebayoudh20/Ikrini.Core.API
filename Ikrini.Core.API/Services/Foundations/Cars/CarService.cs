@@ -1,6 +1,8 @@
-﻿using Ikrini.Core.API.Brokers.Loggings;
+﻿using Ikrini.Core.API.Brokers.Datetimes;
+using Ikrini.Core.API.Brokers.Loggings;
 using Ikrini.Core.API.Brokers.Storages;
 using Ikrini.Core.API.Models.Cars;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,11 +12,13 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
     {
         private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
+        private readonly IDatetimeBroker datetimeBroker;
 
-        public CarService(IStorageBroker storageBroker, ILoggingBroker loggingBroker)
+        public CarService(IStorageBroker storageBroker, ILoggingBroker loggingBroker,IDatetimeBroker datetimeBroker)
         {
             this.storageBroker = storageBroker;
             this.loggingBroker = loggingBroker;
+            this.datetimeBroker = datetimeBroker;
         }
 
         public ValueTask<IQueryable<Car>> RetrieveAllCarsAsync() =>
@@ -25,7 +29,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
 
         public async ValueTask<Car> AddCarAsync(Car car)
         {
-            return await this.storageBroker.InsertCarAsync(car);
+            throw new System.NotImplementedException();
         }
     }
 }
