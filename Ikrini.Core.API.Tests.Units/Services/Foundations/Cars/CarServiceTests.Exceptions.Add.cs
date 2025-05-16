@@ -34,8 +34,8 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                     message: "Car dependency error occurred, contact support.",
                     innerException: failedCarStorageException);
 
-            this.storageBrokerMock.Setup(broker =>
-                broker.InsertCarAsync(randomCar))
+            this.datetimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffsetAsync())
                     .ThrowsAsync(sqlException);
             //Act
 
@@ -49,9 +49,9 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
             actualCarDependencyException.Should().BeEquivalentTo(expectedCarDependencyException);
 
-            //this.datetimeBrokerMock.Verify(broker =>
-            //    broker.GetCurrentDateTimeOffsetAsync(),
-            //        Times.Once);
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCriticalAsync(It.Is(SameExceptionAs(

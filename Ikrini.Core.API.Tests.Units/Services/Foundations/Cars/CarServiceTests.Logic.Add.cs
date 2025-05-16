@@ -43,9 +43,9 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 broker.InsertCarAsync(inputCar), 
                     Times.Once);
 
-            //this.datetimeBrokerMock.Verify(broker =>
-            //    broker.GetCurrentDateTimeOffsetAsync(), 
-            //        Times.Once);
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.datetimeBrokerMock.VerifyNoOtherCalls();
