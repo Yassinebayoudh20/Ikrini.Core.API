@@ -71,14 +71,14 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 new InvalidCarException(
                     message: "Car is invalid, fix the errors and try again.");
 
-            invalidCarException.Data.Add(key: nameof(Car.Id), value: "Id is invalid");
-            invalidCarException.Data.Add(key: nameof(Car.OwnerId), value: "Id is invalid");
-            invalidCarException.Data.Add(key: nameof(Car.Brand), value: "Text is required");
-            invalidCarException.Data.Add(key: nameof(Car.Model), value: "Text is required");
-            invalidCarException.Data.Add(key: nameof(Car.PlateNumber), value: "Text is required");
-            invalidCarException.Data.Add(key: nameof(Car.Color), value: "Text is required");
-            invalidCarException.Data.Add(key: nameof(Car.Year), value: "Number is required");
-            invalidCarException.Data.Add(key: nameof(Car.PricePerDay), value: "Number is required");
+            invalidCarException.AddData(key: nameof(Car.Id), values: "Id is invalid");
+            invalidCarException.AddData(key: nameof(Car.OwnerId), values: "Id is invalid");
+            invalidCarException.AddData(key: nameof(Car.Brand), values: "Text is required");
+            invalidCarException.AddData(key: nameof(Car.Model), values: "Text is required");
+            invalidCarException.AddData(key: nameof(Car.PlateNumber), values: "Text is required");
+            invalidCarException.AddData(key: nameof(Car.Color), values: "Text is required");
+            invalidCarException.AddData(key: nameof(Car.Year), values: "Number is required");
+            invalidCarException.AddData(key: nameof(Car.PricePerDay), values: "Number is required");
 
             var expectedCarValidationException =
                 new CarValidationException(
