@@ -29,10 +29,6 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             {
                 throw await CreateAndLogValidationExceptionAsync(invalidCarException);
             }
-            catch (NotFoundCarException notFoundCarException)
-            {
-                throw await CreateAndLogValidationExceptionAsync(notFoundCarException);
-            }
             catch (SqlException sqlException)
             {
                 var failedCarStorageException =
