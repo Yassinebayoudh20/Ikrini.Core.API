@@ -30,6 +30,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             TryCatch(async () =>
             {
                 var datetime = await this.datetimeBroker.GetCurrentDateTimeOffsetAsync(); //Just for testing purpose
+                ValidateCarOnAdd(car);
                 return await this.storageBroker.InsertCarAsync(car);
             });
     }
