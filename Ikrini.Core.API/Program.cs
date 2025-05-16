@@ -2,6 +2,7 @@
 //   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
 // ---------------------------------------------------------------
 
+using Ikrini.Core.API.Brokers.Datetimes;
 using Ikrini.Core.API.Brokers.Loggings;
 using Ikrini.Core.API.Brokers.Storages;
 using Ikrini.Core.API.Services.Foundations.Cars;
@@ -15,6 +16,7 @@ webApplicationBuilder.Services.AddDbContext<StorageBroker>();
 
 webApplicationBuilder.Services.AddTransient<ILoggingBroker, LoggingBroker>();
 webApplicationBuilder.Services.AddTransient<IStorageBroker, StorageBroker>();
+webApplicationBuilder.Services.AddTransient<IDatetimeBroker, DatetimeBroker>();
 webApplicationBuilder.Services.AddTransient<ICarService, CarService>();
 
 
