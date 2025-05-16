@@ -104,7 +104,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogCriticalAsync(It.Is(SameExceptionAs(
+                broker.LogErrorAsync(It.Is(SameExceptionAs(
                     expectedCarServiceException))),
                         Times.Once);
 

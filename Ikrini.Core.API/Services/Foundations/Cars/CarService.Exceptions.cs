@@ -42,6 +42,14 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
 
                 throw await CreateAndLogDependencyExceptionAsync(failedCarStorageException);
             }
+            catch (Exception exception)
+            {
+                var failedCarServiceException =
+                    new FailedCarServiceException(
+                        message: "Failed Car service occurred, contact support.",
+                        innerException: exception);
+                throw await CreateAndLogServiceExceptionAsync(failedCarServiceException);
+            }
         }
 
         private async ValueTask<IQueryable<Car>> TryCatch(
