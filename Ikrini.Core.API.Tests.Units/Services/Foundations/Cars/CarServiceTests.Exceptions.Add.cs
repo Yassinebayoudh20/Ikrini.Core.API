@@ -66,5 +66,56 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnAddIfServiceErrorOccurredAndLogItAsync()
+        {
+            //Arrange
+            Car randomCar = CreateRandomCar();
+            Exception serviceException = new Exception();
+
+            var failedCarServiceException =
+                new FailedCarServiceException(
+                    message: "Failed Car service occurred, contact support.",
+                    innerException: serviceException);
+
+            var expectedCarServiceException =
+                new CarServiceException(
+                    message: "Car service error occurred, contact support.",
+                    innerException: failedCarServiceException);
+
+            this.datetimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffsetAsync())
+                    .ThrowsAsync(serviceException);
+            //Act
+
+            ValueTask<Car> addCarTask =
+                this.carService.AddCarAsync(randomCar);
+
+            CarServiceException actualCarServiceException =
+                await Assert.ThrowsAsync<CarServiceException>(testCode: addCarTask.AsTask);
+
+            //Assert
+
+            actualCarServiceException.Should().BeEquivalentTo(expectedCarServiceException);
+
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogCriticalAsync(It.Is(SameExceptionAs(
+                    expectedCarServiceException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertCarAsync(randomCar),
+                    Times.Never);
+
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
     }
 }
