@@ -107,5 +107,53 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(1800)]
+        [InlineData(3000)]
+        public async Task ShouldThrowValidationExceptionOnAddIfYearIsInvalidAndLogItAsync(int invalidYear)
+        {
+            // Arrange
+            Car randomSource = CreateRandomCar();
+            Car invalidCar = randomSource;
+
+            invalidCar.Year = invalidYear;
+
+            var invalidCarException =
+                new InvalidCarException(
+                    message: "Car is invalid, fix the errors and try again.");
+
+            invalidCarException.AddData(key: nameof(Car.Year), values: "Year is invalid");
+
+            var expectedCarValidationException =
+                new CarValidationException(
+                    message: "Car validation error occurred, fix the errors and try again.",
+                    innerException: invalidCarException);
+
+            // Act
+            ValueTask<Car> addCarTask =
+                this.carService.AddCarAsync(invalidCar);
+
+            CarValidationException actualCarValidationException =
+                await Assert.ThrowsAsync<CarValidationException>(addCarTask.AsTask);
+
+            // Assert
+            actualCarValidationException.Should().BeEquivalentTo(expectedCarValidationException);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogErrorAsync(It.Is(SameExceptionAs(
+                    expectedCarValidationException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertCarAsync(It.IsAny<Car>()),
+                    Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+
+        }
     }
 }
