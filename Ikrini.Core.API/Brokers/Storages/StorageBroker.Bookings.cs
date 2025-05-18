@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Brokers.Storages
 {
-    internal partial class StorageBroker : IStorageBroker
+    public partial class StorageBroker : IStorageBroker
     {
         public DbSet<Booking> Bookings { get; set; }
 

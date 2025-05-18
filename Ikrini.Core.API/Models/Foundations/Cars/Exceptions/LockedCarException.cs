@@ -6,7 +6,7 @@ using System;
 using System.Collections;
 using Xeptions;
 
-namespace Ikrini.Core.API.Models.Cars.Exceptions
+namespace Ikrini.Core.API.Models.Foundations.Cars.Exceptions
 {
     public class LockedCarException : Xeption
     {

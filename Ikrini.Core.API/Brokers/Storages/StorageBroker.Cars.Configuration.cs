@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ikrini.Core.API.Brokers.Storages
 {
-    internal partial class StorageBroker
+    public partial class StorageBroker
     {
         void AddCarConfigurations(EntityTypeBuilder<Car> builder)
         {

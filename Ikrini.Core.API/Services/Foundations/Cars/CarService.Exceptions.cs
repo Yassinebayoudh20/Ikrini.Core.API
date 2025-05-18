@@ -1,5 +1,5 @@
-﻿using Ikrini.Core.API.Models.Cars;
-using Ikrini.Core.API.Models.Cars.Exceptions;
+﻿using Ikrini.Core.API.Models.Foundations.Cars;
+using Ikrini.Core.API.Models.Foundations.Cars.Exceptions;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Linq;

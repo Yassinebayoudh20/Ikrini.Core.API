@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Force.DeepCloner;
-using Ikrini.Core.API.Models.Cars;
+using Ikrini.Core.API.Models.Foundations.Cars;
 using Moq;
 using System;
 using System.Collections.Generic;

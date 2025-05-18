@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using Ikrini.Core.API.Models.Cars;
-using Ikrini.Core.API.Models.Cars.Exceptions;
+using Ikrini.Core.API.Models.Foundations.Cars;
+using Ikrini.Core.API.Models.Foundations.Cars.Exceptions;
 using Moq;
 using System;
 using System.Threading.Tasks;

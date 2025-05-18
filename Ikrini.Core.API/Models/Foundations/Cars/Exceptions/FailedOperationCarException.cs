@@ -5,7 +5,7 @@
 using System;
 using Xeptions;
 
-namespace Ikrini.Core.API.Models.Cars.Exceptions
+namespace Ikrini.Core.API.Models.Foundations.Cars.Exceptions
 {
     public class FailedOperationCarException : Xeption
     {

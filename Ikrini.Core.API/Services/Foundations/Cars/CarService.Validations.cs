@@ -1,5 +1,5 @@
-﻿using Ikrini.Core.API.Models.Cars;
-using Ikrini.Core.API.Models.Cars.Exceptions;
+﻿using Ikrini.Core.API.Models.Foundations.Cars;
+using Ikrini.Core.API.Models.Foundations.Cars.Exceptions;
 using System;
 
 namespace Ikrini.Core.API.Services.Foundations.Cars
