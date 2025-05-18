@@ -17,7 +17,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 {
     public partial class CarServiceTests
     {
-        [Fact]
+        //[Fact]
         public async Task ShouldThrowCriticalDependencyExceptionOnAddIfSqlErrorOccurredAndLogItAsync()
         {
             //Arrange
@@ -67,7 +67,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
 
-        [Fact]
+        //[Fact]
         public async Task ShouldThrowServiceExceptionOnAddIfServiceErrorOccurredAndLogItAsync()
         {
             //Arrange

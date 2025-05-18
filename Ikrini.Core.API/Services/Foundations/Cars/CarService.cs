@@ -29,8 +29,6 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
         public ValueTask<Car> AddCarAsync(Car car) =>
             TryCatch(async () =>
             {
-                var datetime = await this.datetimeBroker.GetCurrentDateTimeOffsetAsync(); //Just for testing purpose
-
                 ValidateCarOnAdd(car);
 
                 return await this.storageBroker.InsertCarAsync(car);

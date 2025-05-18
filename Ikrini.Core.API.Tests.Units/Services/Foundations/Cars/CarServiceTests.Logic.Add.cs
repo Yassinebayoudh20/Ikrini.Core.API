@@ -40,6 +40,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
