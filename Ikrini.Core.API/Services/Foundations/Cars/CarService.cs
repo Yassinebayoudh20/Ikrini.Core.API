@@ -33,7 +33,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
         public ValueTask<Car> AddCarAsync(Car car) =>
             TryCatch(async () =>
             {
-                ValidateCarOnAdd(car);
+                await ValidateCarOnAddAsync(car);
 
                 return await this.storageBroker.InsertCarAsync(car);
             });

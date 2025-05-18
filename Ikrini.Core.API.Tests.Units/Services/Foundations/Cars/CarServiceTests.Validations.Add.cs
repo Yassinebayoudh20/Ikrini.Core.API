@@ -90,7 +90,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             invalidCarException.AddData(key: nameof(Car.PricePerDay), values: "Price Per Day is invalid");
             invalidCarException.AddData(key: nameof(Car.CreatedBy), values: "Text is required");
             invalidCarException.AddData(key: nameof(Car.CreatedDate), values: "Date is invalid");
-            invalidCarException.AddData(key: nameof(Car.UpdatedBy), values: "Text is required");
+            invalidCarException.AddData(key: nameof(Car.UpdatedBy), values:  "Text is required" );
             invalidCarException.AddData(key: nameof(Car.UpdatedDate), values: "Date is invalid");
 
             var expectedCarValidationException =
@@ -108,6 +108,10 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             // Assert
             actualCarValidationException.Should().BeEquivalentTo(expectedCarValidationException);
 
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
+
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogErrorAsync(It.Is(SameExceptionAs(
                     expectedCarValidationException))),
@@ -117,9 +121,9 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 broker.InsertCarAsync(It.IsAny<Car>()),
                     Times.Never);
 
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
-            this.datetimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Theory]
@@ -130,8 +134,10 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
         public async Task ShouldThrowValidationExceptionOnAddIfYearIsInvalidAndLogItAsync(int invalidYear)
         {
             // Arrange
-            Car randomSource = CreateRandomCar();
-            Car invalidCar = randomSource;
+            DateTimeOffset randomDateTimeOffset = GetRandomDateTimeOffset();
+            DateTimeOffset now = randomDateTimeOffset;
+            Car randomCar = CreateRandomCar(dateTimeOffset: randomDateTimeOffset);
+            Car invalidCar = randomCar;
 
             invalidCar.Year = invalidYear;
 
@@ -146,8 +152,12 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                     message: "Car validation error occurred, fix the errors and try again.",
                     innerException: invalidCarException);
 
+            this.datetimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffsetAsync())
+                    .ReturnsAsync(now);
+
             // Act
-            ValueTask<Car> addCarTask =
+            ValueTask <Car> addCarTask =
                 this.carService.AddCarAsync(invalidCar);
 
             CarValidationException actualCarValidationException =
@@ -155,6 +165,10 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
             // Assert
             actualCarValidationException.Should().BeEquivalentTo(expectedCarValidationException);
+
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogErrorAsync(It.Is(SameExceptionAs(
@@ -165,9 +179,9 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 broker.InsertCarAsync(It.IsAny<Car>()),
                     Times.Never);
 
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
-            this.datetimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Theory]
@@ -177,7 +191,9 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
         {
             // Arrange
 
-            Car randomCar = CreateRandomCar();
+            DateTimeOffset randomDateTimeOffset = GetRandomDateTimeOffset();
+            DateTimeOffset now = randomDateTimeOffset;
+            Car randomCar = CreateRandomCar(dateTimeOffset: randomDateTimeOffset);
             Car invalidCar = randomCar;
 
             invalidCar.PricePerDay = invalidPricePerDay;
@@ -193,9 +209,13 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                     message: "Car validation error occurred, fix the errors and try again.",
                     innerException: invalidCarException);
 
+            this.datetimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffsetAsync())
+                    .ReturnsAsync(now);
+
             // Act
 
-            ValueTask<Car> addCarTask =
+            ValueTask <Car> addCarTask =
                 this.carService.AddCarAsync(invalidCar);
 
             CarValidationException actualCarValidationException =
@@ -204,6 +224,10 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             // Assert
 
             actualCarValidationException.Should().BeEquivalentTo(expectedCarValidationException);
+
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogErrorAsync(It.Is(SameExceptionAs(
@@ -214,20 +238,22 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 broker.InsertCarAsync(It.IsAny<Car>()),
                     Times.Never);
 
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
-            this.datetimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Fact]
         public async Task ShouldThrowValidationExceptionOnAddIfAuditPropertiesAreNotTheSameAndLogItAsync()
         {
             // Arrange
-            Car randomSource = CreateRandomCar();
+            DateTimeOffset randomDateTimeOffset = GetRandomDateTimeOffset();
+            DateTimeOffset now = randomDateTimeOffset;
+            Car randomSource = CreateRandomCar(now);
             Car invalidCar = randomSource;
             invalidCar.CreatedBy = GetRandomString();
             invalidCar.UpdatedBy = GetRandomString();
-            invalidCar.CreatedDate = GetRandomDateTimeOffset();
+            invalidCar.CreatedDate = now;
             invalidCar.UpdatedDate = GetRandomDateTimeOffset();
 
             var invalidCarException =
@@ -243,6 +269,10 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                     message: "Car validation error occurred, fix the errors and try again.",
                     innerException: invalidCarException);
 
+            this.datetimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffsetAsync())
+                    .ReturnsAsync(now);
+
             // Act
             ValueTask<Car> addCarTask =
                 this.carService.AddCarAsync(invalidCar);
@@ -253,6 +283,10 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             // Assert
             actualCarValidationException.Should().BeEquivalentTo(expectedCarValidationException);
 
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
+
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogErrorAsync(It.Is(SameExceptionAs(
                     expectedCarValidationException))),
@@ -262,9 +296,9 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 broker.InsertCarAsync(It.IsAny<Car>()),
                     Times.Never);
 
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
-            this.datetimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Theory]
