@@ -67,9 +67,9 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 PricePerDay = 0.0M,
                 OwnerId = Guid.Empty,
                 CreatedBy = invalidString,
-                CreatedDate = DateTimeOffset.MinValue,
+                CreatedDate = default,
                 UpdatedBy = invalidString,
-                UpdatedDate = DateTimeOffset.MinValue
+                UpdatedDate = default
             };
 
             var invalidCarException =
