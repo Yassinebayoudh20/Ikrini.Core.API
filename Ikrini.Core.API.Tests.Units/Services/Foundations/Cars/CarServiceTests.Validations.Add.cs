@@ -77,8 +77,8 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             invalidCarException.AddData(key: nameof(Car.Model), values: "Text is required");
             invalidCarException.AddData(key: nameof(Car.PlateNumber), values: "Text is required");
             invalidCarException.AddData(key: nameof(Car.Color), values: "Text is required");
-            invalidCarException.AddData(key: nameof(Car.Year), values: "Year is required");
-            invalidCarException.AddData(key: nameof(Car.PricePerDay), values: "Number is required");
+            invalidCarException.AddData(key: nameof(Car.Year), values: "Year is invalid");
+            invalidCarException.AddData(key: nameof(Car.PricePerDay), values: "Price Per Day is invalid");
 
             var expectedCarValidationException =
                 new CarValidationException(
@@ -154,6 +154,55 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
 
+        }
+
+        [Theory]
+        [InlineData(0.0)]
+        [InlineData(-1.0)]
+        [InlineData(1000000.0)]
+        public async Task ShouldThrowValidationExceptionOnAddIfPricePerDayIsInvalidAndLogItAsync(decimal invalidPricePerDay)
+        {
+            // Arrange
+
+            Car randomCar = CreateRandomCar();
+            Car invalidCar = randomCar;
+
+            invalidCar.PricePerDay = invalidPricePerDay;
+
+            var invalidCarException =
+                new InvalidCarException(
+                    message: "Car is invalid, fix the errors and try again.");
+
+            invalidCarException.AddData(key: nameof(Car.PricePerDay), values: "Price Per Day is invalid");
+
+            var expectedCarValidationException =
+                new CarValidationException(
+                    message: "Car validation error occurred, fix the errors and try again.",
+                    innerException: invalidCarException);
+
+            // Act
+
+            ValueTask<Car> addCarTask =
+                this.carService.AddCarAsync(invalidCar);
+
+            CarValidationException actualCarValidationException =
+                await Assert.ThrowsAsync<CarValidationException>(addCarTask.AsTask);
+
+            // Assert
+
+            actualCarValidationException.Should().BeEquivalentTo(expectedCarValidationException);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogErrorAsync(It.Is(SameExceptionAs(
+                    expectedCarValidationException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertCarAsync(It.IsAny<Car>()),
+                    Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
