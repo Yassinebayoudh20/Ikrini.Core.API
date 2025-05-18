@@ -77,7 +77,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             invalidCarException.AddData(key: nameof(Car.Model), values: "Text is required");
             invalidCarException.AddData(key: nameof(Car.PlateNumber), values: "Text is required");
             invalidCarException.AddData(key: nameof(Car.Color), values: "Text is required");
-            invalidCarException.AddData(key: nameof(Car.Year), values: "Number is required");
+            invalidCarException.AddData(key: nameof(Car.Year), values: "Year is required");
             invalidCarException.AddData(key: nameof(Car.PricePerDay), values: "Number is required");
 
             var expectedCarValidationException =

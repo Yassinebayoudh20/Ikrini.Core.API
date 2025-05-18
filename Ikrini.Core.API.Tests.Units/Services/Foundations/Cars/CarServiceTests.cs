@@ -67,11 +67,14 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
         private static Filler<Car> CreateCarFiller(DateTimeOffset dateTimeOffset)
         {
             Guid userId = Guid.NewGuid();
+            int minYear = 1900;
+            int maxYear = DateTimeOffset.UtcNow.Year;
             var filler = new Filler<Car>();
 
             filler.Setup()
                 .OnType<DateTimeOffset>().Use(dateTimeOffset)
-                .OnProperty(car => car.OwnerId).Use(userId);
+                .OnProperty(car => car.OwnerId).Use(userId)
+                .OnProperty(car => car.Year).Use(new IntRange(min: minYear , max : maxYear).GetValue);
 
             return filler;
         }

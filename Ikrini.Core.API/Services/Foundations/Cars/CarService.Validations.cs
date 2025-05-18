@@ -16,7 +16,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                 (Rule: IsInvalid(car.Model), Parameter: nameof(Car.Model)),
                 (Rule: IsInvalid(car.PlateNumber), Parameter: nameof(Car.PlateNumber)),
                 (Rule: IsInvalid(car.Color), Parameter: nameof(Car.Color)),
-                (Rule: IsInvalid(car.Year), Parameter: nameof(Car.Year)),
+                (Rule: IsInvalidYear(car.Year), Parameter: nameof(Car.Year)),
                 (Rule: IsInvalid(car.PricePerDay), Parameter: nameof(Car.PricePerDay)),
                 (Rule: IsInvalid(car.OwnerId), Parameter: nameof(Car.OwnerId)));
         }
@@ -34,17 +34,23 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             Message = "Text is required"
         };
 
-        private static dynamic IsInvalid(int number) => new
-        {
-            Condition = number.CompareTo(default) <= 0,
-            Message = "Number is required"
-        };
-
         private static dynamic IsInvalid(decimal number) => new
         {
             Condition = number.CompareTo(default) <= 0,
             Message = "Number is required"
         };
+
+        private static dynamic IsInvalidYear(int year) => new
+        {
+            Condition = IsValidYear(year) is false,
+            Message = "Year is invalid"
+        };
+
+        private static bool IsValidYear(int year)
+        {
+            var currentYear = DateTimeOffset.UtcNow.Year;
+            return year.CompareTo(default) > 0 &&  year >= 1900 && year <= currentYear;
+        }
 
         private void ValidateCarIsNotNull(Car car)
         {
