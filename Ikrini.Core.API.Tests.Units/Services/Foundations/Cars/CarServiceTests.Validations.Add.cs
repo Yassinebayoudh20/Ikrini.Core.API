@@ -65,7 +65,11 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 Color = invalidString,
                 Year = 0,
                 PricePerDay = 0.0M,
-                OwnerId = Guid.Empty
+                OwnerId = Guid.Empty,
+                CreatedBy = invalidString,
+                CreatedDate = DateTimeOffset.MinValue,
+                UpdatedBy = invalidString,
+                UpdatedDate = DateTimeOffset.MinValue
             };
 
             var invalidCarException =
@@ -80,6 +84,10 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             invalidCarException.AddData(key: nameof(Car.Color), values: "Text is required");
             invalidCarException.AddData(key: nameof(Car.Year), values: "Year is invalid");
             invalidCarException.AddData(key: nameof(Car.PricePerDay), values: "Price Per Day is invalid");
+            invalidCarException.AddData(key: nameof(Car.CreatedBy), values: "Text is required");
+            invalidCarException.AddData(key: nameof(Car.CreatedDate), values: "Date is invalid");
+            invalidCarException.AddData(key: nameof(Car.UpdatedBy), values: "Text is required");
+            invalidCarException.AddData(key: nameof(Car.UpdatedDate), values: "Date is invalid");
 
             var expectedCarValidationException =
                 new CarValidationException(
