@@ -1,4 +1,8 @@
-﻿using Ikrini.Core.API.Models.Foundations.Cars;
+﻿// ---------------------------------------------------------------
+//   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
+// ---------------------------------------------------------------
+
+using Ikrini.Core.API.Models.Foundations.Cars;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ikrini.Core.API.Brokers.Storages

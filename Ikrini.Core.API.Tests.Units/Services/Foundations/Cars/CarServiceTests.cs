@@ -1,4 +1,8 @@
-﻿using Ikrini.Core.API.Brokers.Datetimes;
+﻿// ---------------------------------------------------------------
+//   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
+// ---------------------------------------------------------------
+
+using Ikrini.Core.API.Brokers.Datetimes;
 using Ikrini.Core.API.Brokers.Loggings;
 using Ikrini.Core.API.Brokers.Storages;
 using Ikrini.Core.API.Models.Foundations.Cars;

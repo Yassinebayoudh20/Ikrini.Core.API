@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿// ---------------------------------------------------------------
+//   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
+// ---------------------------------------------------------------
+
+using FluentAssertions;
 using Force.DeepCloner;
 using Ikrini.Core.API.Models.Foundations.Cars;
 using Moq;

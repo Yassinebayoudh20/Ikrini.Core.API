@@ -2,7 +2,6 @@
 //   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
 // ---------------------------------------------------------------
 
-
 using Ikrini.Core.API.Models.Foundations.Bookings;
 using System;
 using System.Linq;
