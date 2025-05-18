@@ -266,5 +266,63 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.datetimeBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(-61)]
+        public async Task ShouldThrowValidationExceptionOnAddIfCreatedDateIsNotRecentAndLogItAsync(int invalidSeconds)
+        {
+            // Arrange
+            DateTimeOffset randomDateTime = GetRandomDateTimeOffset();
+            DateTimeOffset now = randomDateTime;
+            Car randomCar = CreateRandomCar();
+            Car invalidCar = randomCar;
+            int randomNumber = GetRandomNumber();
+            DateTimeOffset invalidDateTime = now.AddSeconds(invalidSeconds);
+            invalidCar.CreatedDate = invalidDateTime;
+            invalidCar.UpdatedDate = invalidDateTime;
+
+            var invalidCarException =
+                new InvalidCarException(
+                    message: "Car is invalid, fix the errors and try again.");
+
+            invalidCarException.AddData(key: nameof(Car.CreatedDate), values: $"Date is not recent");
+
+            var expectedCarValidationException =
+                new CarValidationException(
+                    message: "Car validation error occurred, fix the errors and try again.",
+                    innerException: invalidCarException);
+
+            this.datetimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffsetAsync())
+                    .ReturnsAsync(now);
+
+            // Act
+            ValueTask<Car> addCarTask =
+                this.carService.AddCarAsync(invalidCar);
+
+            CarValidationException actualCarValidationException =
+                await Assert.ThrowsAsync<CarValidationException>(addCarTask.AsTask);
+
+            // Assert
+            actualCarValidationException.Should().BeEquivalentTo(expectedCarValidationException);
+
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogErrorAsync(It.Is(SameExceptionAs(
+                    expectedCarValidationException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertCarAsync(It.IsAny<Car>()),
+                    Times.Never);
+
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
