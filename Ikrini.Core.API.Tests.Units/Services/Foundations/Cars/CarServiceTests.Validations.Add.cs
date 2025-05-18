@@ -221,13 +221,17 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             // Arrange
             Car randomSource = CreateRandomCar();
             Car invalidCar = randomSource;
+            invalidCar.CreatedBy = GetRandomString();
+            invalidCar.UpdatedBy = GetRandomString();
+            invalidCar.CreatedDate = GetRandomDateTimeOffset();
+            invalidCar.UpdatedDate = GetRandomDateTimeOffset();
 
             var invalidCarException =
                 new InvalidCarException(
                     message: "Car is invalid, fix the errors and try again.");
 
-            invalidCarException.AddData(key: nameof(Car.UpdatedBy), values: $"Text should be the same as {nameof(invalidCar.CreatedBy)}");
-            invalidCarException.AddData(key: nameof(Car.UpdatedDate), values: $"Date should be the same as {nameof(invalidCar.CreatedDate)}");
+            invalidCarException.AddData(key: nameof(Car.UpdatedBy), values: $"Text is not the same as {nameof(invalidCar.CreatedBy)}");
+            invalidCarException.AddData(key: nameof(Car.UpdatedDate), values: $"Date is not the same as {nameof(invalidCar.CreatedDate)}");
 
 
             var expectedCarValidationException =

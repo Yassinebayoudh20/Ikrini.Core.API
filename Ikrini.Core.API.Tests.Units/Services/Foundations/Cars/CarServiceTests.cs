@@ -45,6 +45,10 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 .AsQueryable();
         }
 
+        private static string GetRandomString() { 
+            return new MnemonicString().GetValue();
+        }
+
         private static Car CreateRandomCar() =>
             CreateRandomCar(dateTimeOffset: GetRandomDateTimeOffset());
 

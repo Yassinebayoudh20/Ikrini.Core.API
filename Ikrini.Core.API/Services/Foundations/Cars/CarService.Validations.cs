@@ -22,7 +22,21 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                 (Rule: IsInvalid(car.CreatedBy), Parameter: nameof(Car.CreatedBy)),
                 (Rule: IsInvalid(car.UpdatedBy), Parameter: nameof(Car.UpdatedBy)),
                 (Rule: IsInvalid(car.CreatedDate), Parameter: nameof(Car.CreatedDate)),
-                (Rule: IsInvalid(car.UpdatedDate), Parameter: nameof(Car.UpdatedDate)));
+                (Rule: IsInvalid(car.UpdatedDate), Parameter: nameof(Car.UpdatedDate)),
+                (
+                    Rule: IsDateNotSame(
+                    createdDate: car.CreatedDate,
+                    updatedDate :car.UpdatedDate, 
+                    createdDateName :nameof(Car.CreatedDate)),
+                    Parameter: nameof(Car.UpdatedDate)
+                ),
+                (
+                    Rule: IsValuesNotSame(
+                    createdBy :car.CreatedBy,
+                    updatedBy: car.UpdatedBy,
+                    createdByName: nameof(Car.CreatedBy)),
+                    Parameter: nameof(Car.UpdatedBy)
+                ));
         }
 
 
@@ -44,6 +58,24 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             Message = "Date is invalid"
         };
 
+        private static dynamic IsDateNotSame(
+            DateTimeOffset createdDate,
+            DateTimeOffset updatedDate,
+            string createdDateName) => new
+            {
+                Condition = createdDate != updatedDate,
+                Message = $"Date is not the same as {createdDateName}"
+            };
+
+        private static dynamic IsValuesNotSame(
+            string createdBy,
+            string updatedBy,
+            string createdByName) => new
+            {
+                Condition = createdBy != updatedBy,
+                Message = $"Text is not the same as {createdByName}"
+            };
+
         private static dynamic IsInvalidYear(int year) => new
         {
             Condition = IsValidYear(year) is false,
@@ -59,7 +91,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
         private static bool IsValidYear(int year)
         {
             var currentYear = DateTimeOffset.UtcNow.Year;
-            return year.CompareTo(default) > 0 &&  year >= 1900 && year <= currentYear;
+            return year.CompareTo(default) > 0 && year >= 1900 && year <= currentYear;
         }
 
         private static bool IsValidPricePerDay(decimal pricePerDay)
