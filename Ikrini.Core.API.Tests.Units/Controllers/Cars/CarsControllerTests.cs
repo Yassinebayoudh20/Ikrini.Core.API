@@ -1,6 +1,6 @@
 ﻿using Ikrini.Core.API.Controllers;
-using Ikrini.Core.API.Models.Cars;
-using Ikrini.Core.API.Models.Cars.Exceptions;
+using Ikrini.Core.API.Models.Foundations.Cars.Exceptions;
+using Ikrini.Core.API.Models.Foundations.Cars;
 using Ikrini.Core.API.Services.Foundations.Cars;
 using Microsoft.Data.SqlClient;
 using Moq;

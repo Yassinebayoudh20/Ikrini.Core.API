@@ -9,27 +9,30 @@ namespace Ikrini.Core.API.Brokers.Storages
 {
     internal partial class StorageBroker : IStorageBroker
     {
-        public DbSet<Car> Cars { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
-        public async ValueTask<IQueryable<Car>> SelectAllCarsAsync()=> 
-            await this.SelectAll<Car>();
 
-        public ValueTask<Car> InsertCarAsync(Car car)
+        public ValueTask<IQueryable<Booking>> SelectAllBookingsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public ValueTask<Car> UpdateCarAsync(Car car)
+        public ValueTask<Booking> InsertBookingAsync(Booking car)
         {
             throw new NotImplementedException();
         }
 
-        public ValueTask<Car> DeleteCarAsync(Car car)
+        public ValueTask<Booking> UpdateBookingAsync(Booking car)
         {
             throw new NotImplementedException();
         }
 
-        public ValueTask<Car> SelectCarByIdAsync(Guid carId)
+        public ValueTask<Booking> DeleteBookingAsync(Booking car)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ValueTask<Booking> SelectBookingByIdAsync(Guid carId)
         {
             throw new NotImplementedException();
         }

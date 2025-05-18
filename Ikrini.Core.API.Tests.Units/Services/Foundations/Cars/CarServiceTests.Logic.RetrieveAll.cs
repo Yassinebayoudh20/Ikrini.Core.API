@@ -2,7 +2,7 @@
 using Force.DeepCloner;
 using Ikrini.Core.API.Brokers.Loggings;
 using Ikrini.Core.API.Brokers.Storages;
-using Ikrini.Core.API.Models.Cars;
+using Ikrini.Core.API.Models.Foundations.Cars;
 using Ikrini.Core.API.Services.Foundations.Cars;
 using Moq;
 using System;

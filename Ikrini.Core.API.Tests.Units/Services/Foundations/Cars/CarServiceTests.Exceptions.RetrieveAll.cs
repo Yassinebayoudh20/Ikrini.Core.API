@@ -2,8 +2,8 @@
 using Force.DeepCloner;
 using Ikrini.Core.API.Brokers.Loggings;
 using Ikrini.Core.API.Brokers.Storages;
-using Ikrini.Core.API.Models.Cars;
-using Ikrini.Core.API.Models.Cars.Exceptions;
+using Ikrini.Core.API.Models.Foundations.Cars;
+using Ikrini.Core.API.Models.Foundations.Cars.Exceptions;
 using Ikrini.Core.API.Services.Foundations.Cars;
 using Microsoft.Data.SqlClient;
 using Moq;

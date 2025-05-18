@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Ikrini.Core.API.Models.Foundations.Bookings;
+using System;
+using System.Collections.Generic;
 
-namespace Ikrini.Core.API.Models.Cars
+namespace Ikrini.Core.API.Models.Foundations.Cars
 {
-    public class Car
+    public class Car : IKey, IAudit
     {
         public Guid Id { get; set; }
         public string Brand { get; set; }
@@ -13,8 +15,11 @@ namespace Ikrini.Core.API.Models.Cars
         public decimal PricePerDay { get; set; }
         public bool IsAvailable { get; set; }
         public Guid OwnerId { get; set; }
-
+        public string CreatedBy { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
+        public string UpdatedBy { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
+
+        public IEnumerable<Booking> Bookings { get; set; }
     }
 }
