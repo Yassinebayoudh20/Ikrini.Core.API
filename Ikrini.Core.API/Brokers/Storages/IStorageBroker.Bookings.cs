@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 
-using Ikrini.Core.API.Models.Foundations.Cars;
+using Ikrini.Core.API.Models.Foundations.Bookings;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,10 +12,10 @@ namespace Ikrini.Core.API.Brokers.Storages
 {
     internal partial interface IStorageBroker
     {
-        ValueTask<IQueryable<Car>> SelectAllCarsAsync();
-        ValueTask<Car> InsertCarAsync(Car car);
-        ValueTask<Car> UpdateCarAsync(Car car);
-        ValueTask<Car> DeleteCarAsync(Car car);
-        ValueTask<Car> SelectCarByIdAsync(Guid carId);
+        ValueTask<IQueryable<Booking>> SelectAllBookingsAsync();
+        ValueTask<Booking> InsertBookingAsync(Booking car);
+        ValueTask<Booking> UpdateBookingAsync(Booking car);
+        ValueTask<Booking> DeleteBookingAsync(Booking car);
+        ValueTask<Booking> SelectBookingByIdAsync(Guid carId);
     }
 }

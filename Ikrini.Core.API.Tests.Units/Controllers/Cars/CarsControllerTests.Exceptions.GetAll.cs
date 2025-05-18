@@ -5,7 +5,7 @@
 using FluentAssertions;
 using Force.DeepCloner;
 using Ikrini.Core.API.Controllers;
-using Ikrini.Core.API.Models.Cars;
+using Ikrini.Core.API.Models.Foundations.Cars;
 using Ikrini.Core.API.Services.Foundations.Cars;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;

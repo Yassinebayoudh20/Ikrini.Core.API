@@ -3,7 +3,8 @@
 // ---------------------------------------------------------------
 
 using EFxceptions;
-using Ikrini.Core.API.Models.Cars;
+using Ikrini.Core.API.Models.Foundations.Bookings;
+using Ikrini.Core.API.Models.Foundations.Cars;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -28,6 +29,13 @@ namespace Ikrini.Core.API.Brokers.Storages
             string connectionString = this.configuration.GetConnectionString(name : "DefaultConnection");
             dbContextOptionBuild.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             dbContextOptionBuild.UseSqlServer(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            AddCarConfigurations(modelBuilder.Entity<Car>());
+            AddBookingConfigurations(modelBuilder.Entity<Booking>());
         }
 
         private async ValueTask<IQueryable<T>> SelectAll<T>() where T : class => this.Set<T>();

@@ -1,4 +1,4 @@
-﻿namespace Ikrini.Core.API.Models.Bookings
+﻿namespace Ikrini.Core.API.Models.Foundations.Bookings
 {
     public enum BookingStatus
     {
