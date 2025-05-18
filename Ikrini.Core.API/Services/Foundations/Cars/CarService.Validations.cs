@@ -17,7 +17,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                 (Rule: IsInvalid(car.PlateNumber), Parameter: nameof(Car.PlateNumber)),
                 (Rule: IsInvalid(car.Color), Parameter: nameof(Car.Color)),
                 (Rule: IsInvalidYear(car.Year), Parameter: nameof(Car.Year)),
-                (Rule: IsInvalid(car.PricePerDay), Parameter: nameof(Car.PricePerDay)),
+                (Rule: IsInvalidPricePerDay(car.PricePerDay), Parameter: nameof(Car.PricePerDay)),
                 (Rule: IsInvalid(car.OwnerId), Parameter: nameof(Car.OwnerId)));
         }
 
@@ -46,10 +46,21 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             Message = "Year is invalid"
         };
 
+        private static dynamic IsInvalidPricePerDay(decimal pricePerDay) => new
+        {
+            Condition = IsValidPricePerDay(pricePerDay) is false,
+            Message = "Price Per Day is invalid"
+        };
+
         private static bool IsValidYear(int year)
         {
             var currentYear = DateTimeOffset.UtcNow.Year;
             return year.CompareTo(default) > 0 &&  year >= 1900 && year <= currentYear;
+        }
+
+        private static bool IsValidPricePerDay(decimal pricePerDay)
+        {
+            return pricePerDay.CompareTo(default) > 0;
         }
 
         private void ValidateCarIsNotNull(Car car)

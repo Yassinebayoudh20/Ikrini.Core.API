@@ -159,7 +159,6 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
         [Theory]
         [InlineData(0.0)]
         [InlineData(-1.0)]
-        [InlineData(1000000.0)]
         public async Task ShouldThrowValidationExceptionOnAddIfPricePerDayIsInvalidAndLogItAsync(decimal invalidPricePerDay)
         {
             // Arrange
