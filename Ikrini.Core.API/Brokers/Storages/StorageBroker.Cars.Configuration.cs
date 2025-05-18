@@ -1,0 +1,13 @@
+﻿using Ikrini.Core.API.Models.Foundations.Cars;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Ikrini.Core.API.Brokers.Storages
+{
+    internal partial class StorageBroker
+    {
+        void AddCarConfigurations(EntityTypeBuilder<Car> builder)
+        {
+            builder.HasKey(car => car.Id);
+        }
+    }
+}

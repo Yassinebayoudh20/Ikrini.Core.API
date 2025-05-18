@@ -1,4 +1,5 @@
-﻿using Ikrini.Core.API.Models.Cars;
+﻿using Ikrini.Core.API.Models.Foundations.Bookings;
+using Ikrini.Core.API.Models.Foundations.Cars;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
