@@ -77,7 +77,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             Exception serviceException = new Exception();
 
             var failedCarServiceException =
-                new FailedCarServiceException(
+                new FailedServiceCarException(
                     message: "Failed Car service occurred, contact support.",
                     innerException: serviceException);
 
@@ -219,6 +219,5 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
-
     }
 }

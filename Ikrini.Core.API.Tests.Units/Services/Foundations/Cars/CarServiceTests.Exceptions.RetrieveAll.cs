@@ -79,8 +79,8 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
             Exception serviceException = new Exception();
 
-            FailedCarServiceException expectedCarServiceException =
-                new FailedCarServiceException(
+            FailedServiceCarException expectedCarServiceException =
+                new FailedServiceCarException(
                     message: "Failed Car service occurred, contact support.",
                     innerException: serviceException);
 

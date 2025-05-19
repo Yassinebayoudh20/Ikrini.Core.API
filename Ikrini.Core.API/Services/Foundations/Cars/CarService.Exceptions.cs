@@ -64,7 +64,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             catch (Exception exception)
             {
                 var failedCarServiceException =
-                    new FailedCarServiceException(
+                    new FailedServiceCarException(
                         message: "Failed Car service occurred, contact support.",
                         innerException: exception);
                 throw await CreateAndLogServiceExceptionAsync(failedCarServiceException);
@@ -90,7 +90,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             catch (Exception exception)
             {
                 var failedCarServiceException =
-                    new FailedCarServiceException(
+                    new FailedServiceCarException(
                         message: "Failed Car service occurred, contact support.",
                         innerException: exception);
                 throw await CreateAndLogServiceExceptionAsync(failedCarServiceException);
