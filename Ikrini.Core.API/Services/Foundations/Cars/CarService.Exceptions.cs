@@ -6,6 +6,7 @@ using EFxceptions.Models.Exceptions;
 using Ikrini.Core.API.Models.Foundations.Cars;
 using Ikrini.Core.API.Models.Foundations.Cars.Exceptions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                         message: "Failed Car storage occurred , contact support.",
                         innerException: sqlException);
 
-                throw await CreateAndLogDependencyExceptionAsync(failedCarStorageException);
+                throw await CreateAndLogCriticalDependencyExceptionAsync(failedCarStorageException);
             }
             catch (DuplicateKeyException duplicatedKeyException)
             {
@@ -50,6 +51,15 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                     data: duplicatedKeyException.Data);
 
                 throw await CreateAndLogDependencyValidationExceptionAsync(alreadyExistsCarException);
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                var failedOperationCarException =
+                    new FailedOperationCarException(
+                        message: "Failed Car storage occurred , contact support.",
+                        innerException: dbUpdateException);
+
+                throw await CreateandLogDependencyExceptionAsync(failedOperationCarException);
             }
             catch (Exception exception)
             {
@@ -75,7 +85,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                         message: "Failed Car storage occurred , contact support.",
                         innerException: sqlException);
 
-                throw await CreateAndLogDependencyExceptionAsync(failedCarStorageException);
+                throw await CreateAndLogCriticalDependencyExceptionAsync(failedCarStorageException);
             }
             catch (Exception exception)
             {
@@ -99,7 +109,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             return carValidationException;
         }
 
-        private async ValueTask<CarDependencyException> CreateAndLogDependencyExceptionAsync(Xeption exception)
+        private async ValueTask<CarDependencyException> CreateAndLogCriticalDependencyExceptionAsync(Xeption exception)
         {
             var carDependencyException =
                 new CarDependencyException(
@@ -127,6 +137,16 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                     innerException: exception);
             await this.loggingBroker.LogErrorAsync(carDependencyValidationException);
             throw carDependencyValidationException;
+        }
+
+        private async ValueTask<FailedOperationCarException> CreateandLogDependencyExceptionAsync(Xeption exception)
+        {
+            var carDependencyException =
+                new CarDependencyException(
+                    message: "Car dependency error occurred, contact support.",
+                    innerException: exception);
+            await this.loggingBroker.LogErrorAsync(carDependencyException);
+            throw carDependencyException;
         }
     }
 }
