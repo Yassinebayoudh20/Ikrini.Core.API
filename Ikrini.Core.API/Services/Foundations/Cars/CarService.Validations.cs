@@ -30,7 +30,6 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                 (Rule: await IsInvalid(car.UpdatedBy), Parameter: nameof(Car.UpdatedBy)),
                 (Rule: await IsInvalid(car.CreatedDate), Parameter: nameof(Car.CreatedDate)),
                 (Rule: await IsInvalid(car.UpdatedDate), Parameter: nameof(Car.UpdatedDate)),
-                (Rule: await IsNotRecent(car.CreatedDate), Parameter: nameof(Car.CreatedDate)),
                 (
                     Rule: await IsDateNotSame(
                     createdDate: car.CreatedDate,
@@ -43,8 +42,9 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                     createdBy: car.CreatedBy,
                     updatedBy: car.UpdatedBy,
                     createdByName: nameof(Car.CreatedBy)),
-                    Parameter: nameof(Car.UpdatedBy)
-                ));
+                    Parameter: nameof(Car.UpdatedBy)),
+
+                (Rule: await IsNotRecentAsync(car.CreatedDate), Parameter: nameof(Car.CreatedDate)));
         }
 
 
@@ -84,11 +84,16 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                 Message = $"Text is not the same as {createdByName}"
             };
 
-        private async ValueTask<dynamic> IsNotRecent(DateTimeOffset date) => new
+        private async ValueTask<dynamic> IsNotRecentAsync(DateTimeOffset date)
+        {
+            var (isNotRecent, startDate, endDate) = await IsDateNotRecentAsync(date);
+
+            return new
             {
-                Condition = await IsDateNotRecent(date),
-                Message = "Date is not recent"
+                Condition = isNotRecent,
+                Message = $"Date is not recent. Expected a value between {startDate} and {endDate} but found {date}"
             };
+        }
 
         private async ValueTask<dynamic> IsInvalidYear(int year) => new
         {
@@ -102,12 +107,26 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
             Message = "Price Per Day is invalid"
         };
 
-        private async ValueTask<bool> IsDateNotRecent(DateTimeOffset date)
+        private async ValueTask<(bool IsNotRecent, DateTimeOffset StartDate, DateTimeOffset EndDate)>
+            IsDateNotRecentAsync(DateTimeOffset date)
         {
-            DateTimeOffset currentDateTime = await this.datetimeBroker.GetCurrentDateTimeOffsetAsync();
-            TimeSpan timeSpanDifference = currentDateTime.Subtract(date);
+            int pastSeconds = 60;
+            int futureSeconds = 0;
 
-            return timeSpanDifference.TotalSeconds is > 60 or < 0;
+            DateTimeOffset currentDateTime =
+                await this.datetimeBroker.GetCurrentDateTimeOffsetAsync();
+
+            if (currentDateTime == default)
+            {
+                return (false, default, default);
+            }
+
+            TimeSpan timeDifference = currentDateTime.Subtract(date);
+            DateTimeOffset startDate = currentDateTime.AddSeconds(-pastSeconds);
+            DateTimeOffset endDate = currentDateTime.AddSeconds(futureSeconds);
+            bool isNotRecent = timeDifference.TotalSeconds is > 60 or < 0;
+
+            return (isNotRecent, startDate, endDate);
         }
 
         private static bool IsValidYear(int year)
