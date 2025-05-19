@@ -309,6 +309,8 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             // Arrange
             DateTimeOffset randomDateTime = GetRandomDateTimeOffset();
             DateTimeOffset now = randomDateTime;
+            DateTimeOffset startDate = now.AddSeconds(-60);
+            DateTimeOffset endDate = now.AddSeconds(0);
             Car randomCar = CreateRandomCar();
             Car invalidCar = randomCar;
             int randomNumber = GetRandomNumber();
@@ -320,7 +322,9 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
                 new InvalidCarException(
                     message: "Car is invalid, fix the errors and try again.");
 
-            invalidCarException.AddData(key: nameof(Car.CreatedDate), values: $"Date is not recent");
+            invalidCarException.AddData(key: nameof(Car.CreatedDate),
+                values: $"Date is not recent. Expected a value between " +
+                        $"{startDate} and {endDate} but found {invalidDateTime}");
 
             var expectedCarValidationException =
                 new CarValidationException(

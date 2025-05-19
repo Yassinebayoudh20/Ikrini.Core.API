@@ -8,3 +8,24 @@ GET {{Ikrini.Core.API_HostAddress}}/api/home
 GET {{Ikrini.Core.API_HostAddress}}/api/cars
 
 ###
+
+POST {{Ikrini.Core.API_HostAddress}}/api/cars
+Content-Type: application/json
+
+{
+  "id": "6cbe1c20-9e54-4d1f-bfd2-08363a8f2511",
+  "brand": "Toyota",
+  "model": "Corolla",
+  "plateNumber": "TN-1234-IK",
+  "color": "White",
+  "year": 2020,
+  "pricePerDay": 85.50,
+  "isAvailable": true,
+  "ownerId": "b1e00b80-13d9-4d5d-9806-33e0dcb08897",
+  "createdBy": "system",
+  "createdDate": "2025-05-19T12:00:00+01:00",
+  "updatedBy": "system",
+  "updatedDate": "2025-05-19T12:00:00+01:00",
+  "bookings": null
+}
+###
