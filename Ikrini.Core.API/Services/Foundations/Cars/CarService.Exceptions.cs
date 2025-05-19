@@ -18,8 +18,7 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
 
         private delegate ValueTask<IQueryable<Car>> ReturningCarsFunction();
 
-        private async ValueTask<Car> TryCatch(
-            ReturningCarFunction returningCarFunction)
+        private async ValueTask<Car> TryCatch(ReturningCarFunction returningCarFunction)
         {
             try
             {

@@ -2,6 +2,7 @@
 //   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
 // ---------------------------------------------------------------
 
+using EFxceptions.Models.Exceptions;
 using FluentAssertions;
 using Ikrini.Core.API.Models.Foundations.Cars;
 using Ikrini.Core.API.Models.Foundations.Cars.Exceptions;
@@ -17,7 +18,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 {
     public partial class CarServiceTests
     {
-        //[Fact]
+        [Fact]
         public async Task ShouldThrowCriticalDependencyExceptionOnAddIfSqlErrorOccurredAndLogItAsync()
         {
             //Arrange
@@ -67,7 +68,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
 
-        //[Fact]
+        [Fact]
         public async Task ShouldThrowServiceExceptionOnAddIfServiceErrorOccurredAndLogItAsync()
         {
             //Arrange
@@ -106,6 +107,57 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogErrorAsync(It.Is(SameExceptionAs(
                     expectedCarServiceException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertCarAsync(randomCar),
+                    Times.Never);
+
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDepencdencyValidationExceptionOnAddIfSourceAlreadyExsistAndLogItAsync()
+        {
+            //Arrange
+            Car randomCar = CreateRandomCar();
+
+            var duplicateKeyException = new DuplicateKeyException(message : "Duplicate key exception message");
+
+            var alreadyExistsCarException = new AlreadyExistsCarException(
+                message: "Car already exist error occurred, contact support.",
+                innerException: duplicateKeyException,
+                data: duplicateKeyException.Data);
+
+            var expectedCarDependencyValidationException =
+                new CarDependencyValidationException(
+                    message: "Car dependency validation error occurred, contact support.",
+                    innerException: alreadyExistsCarException);
+
+            this.datetimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffsetAsync())
+                    .ThrowsAsync(duplicateKeyException);
+            //Act
+
+            ValueTask<Car> addCarTask =
+                this.carService.AddCarAsync(randomCar);
+
+            CarDependencyValidationException actualCarDependencyValidationException =
+                await Assert.ThrowsAsync<CarDependencyValidationException>(testCode: addCarTask.AsTask);
+
+            //Assert
+
+            actualCarDependencyValidationException.Should().BeEquivalentTo(expectedCarDependencyValidationException);
+
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogErrorAsync(It.Is(SameExceptionAs(
+                    expectedCarDependencyValidationException))),
                         Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
