@@ -2,14 +2,13 @@
 //   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
 // ---------------------------------------------------------------
 
-
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Brokers.Loggings
 {
-    internal class LoggingBroker : ILoggingBroker
+    public class LoggingBroker : ILoggingBroker
     {
         private readonly ILogger<LoggingBroker> logger;
 

@@ -6,11 +6,10 @@ using Xeptions;
 
 namespace Ikrini.Core.API.Models.Foundations.Cars.Exceptions
 {
-    public class CarServiceException : Xeption
+    public class CarValidationException : Xeption
     {
-        public CarServiceException(string message, Xeption innerException)
+        public CarValidationException(string message, Xeption innerException)
             : base(message, innerException)
         { }
     }
-   
 }

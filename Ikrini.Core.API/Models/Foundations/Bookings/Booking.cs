@@ -1,4 +1,8 @@
-﻿using Ikrini.Core.API.Models.Foundations.Cars;
+﻿// ---------------------------------------------------------------
+//   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
+// ---------------------------------------------------------------
+
+using Ikrini.Core.API.Models.Foundations.Cars;
 using System;
 
 namespace Ikrini.Core.API.Models.Foundations.Bookings

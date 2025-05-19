@@ -2,15 +2,16 @@
 //   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections;
 using Xeptions;
 
 namespace Ikrini.Core.API.Models.Foundations.Cars.Exceptions
 {
-    public class CarServiceException : Xeption
+    public class AlreadyExistsCarException : Xeption
     {
-        public CarServiceException(string message, Xeption innerException)
-            : base(message, innerException)
+        public AlreadyExistsCarException(string message, Exception innerException, IDictionary data)
+           : base(message, innerException, data)
         { }
     }
-   
 }

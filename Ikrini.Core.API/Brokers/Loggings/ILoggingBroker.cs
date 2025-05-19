@@ -2,13 +2,12 @@
 //   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
 // ---------------------------------------------------------------
 
-
 using System;
 using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Brokers.Loggings
 {
-    internal interface ILoggingBroker
+    public interface ILoggingBroker
     {
         ValueTask LogInformationAsync(string message);
         ValueTask LogTraceAsync(string message);

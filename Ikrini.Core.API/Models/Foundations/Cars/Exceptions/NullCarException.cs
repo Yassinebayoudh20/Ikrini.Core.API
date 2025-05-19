@@ -2,9 +2,14 @@
 //   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
 // ---------------------------------------------------------------
 
-namespace Ikrini.Core.API.Brokers.Storages
+using Xeptions;
+
+namespace Ikrini.Core.API.Models.Foundations.Cars.Exceptions
 {
-    public partial interface IStorageBroker
+    public class NullCarException : Xeption
     {
+        public NullCarException(string message)
+            : base(message)
+        { }
     }
 }

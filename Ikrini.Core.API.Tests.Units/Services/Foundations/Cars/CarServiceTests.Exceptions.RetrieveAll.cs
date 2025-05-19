@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿// ---------------------------------------------------------------
+//   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
+// ---------------------------------------------------------------
+
+using FluentAssertions;
 using Force.DeepCloner;
 using Ikrini.Core.API.Brokers.Loggings;
 using Ikrini.Core.API.Brokers.Storages;
@@ -63,7 +67,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
-
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
         }
 
 
@@ -75,8 +79,8 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
             Exception serviceException = new Exception();
 
-            FailedCarServiceException expectedCarServiceException =
-                new FailedCarServiceException(
+            FailedServiceCarException expectedCarServiceException =
+                new FailedServiceCarException(
                     message: "Failed Car service occurred, contact support.",
                     innerException: serviceException);
 
@@ -113,7 +117,7 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
-
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
         }
 
     }

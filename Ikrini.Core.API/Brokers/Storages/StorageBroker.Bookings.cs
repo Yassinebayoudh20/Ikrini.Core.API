@@ -1,4 +1,8 @@
-﻿using Ikrini.Core.API.Models.Foundations.Bookings;
+﻿// ---------------------------------------------------------------
+//   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
+// ---------------------------------------------------------------
+
+using Ikrini.Core.API.Models.Foundations.Bookings;
 using Ikrini.Core.API.Models.Foundations.Cars;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ikrini.Core.API.Brokers.Storages
 {
-    internal partial class StorageBroker : IStorageBroker
+    public partial class StorageBroker : IStorageBroker
     {
         public DbSet<Booking> Bookings { get; set; }
 
