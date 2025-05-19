@@ -7,6 +7,7 @@ using FluentAssertions;
 using Ikrini.Core.API.Models.Foundations.Cars;
 using Ikrini.Core.API.Models.Foundations.Cars.Exceptions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -162,6 +163,56 @@ namespace Ikrini.Core.API.Tests.Units.Services.Foundations.Cars
 
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertCarAsync(randomCar),
+                    Times.Never);
+
+            this.datetimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyExceptionOnAddIfDependencyErrorOccuredAndLogItAsync()
+        {
+            //Arrange
+            var dbUpdateException = new DbUpdateException();
+
+            var failedOperationCarException =
+                new FailedOperationCarException(
+                    message: "Failed Car storage occurred , contact support.",
+                    innerException: dbUpdateException);
+
+            var expectedCarDependencyException =
+                new CarDependencyException(
+                    message: "Car dependency error occurred, contact support.",
+                    innerException: failedOperationCarException);
+
+            this.datetimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffsetAsync())
+                    .ThrowsAsync(dbUpdateException);
+
+            //Act
+
+            ValueTask<Car> addCarTask =
+                this.carService.AddCarAsync(CreateRandomCar());
+
+            CarDependencyException actualCarDependencyException =
+                await Assert.ThrowsAsync<CarDependencyException>(testCode: addCarTask.AsTask);
+
+            //Assert
+
+            actualCarDependencyException.Should().BeEquivalentTo(expectedCarDependencyException);
+
+            this.datetimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffsetAsync(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogErrorAsync(It.Is(SameExceptionAs(
+                    expectedCarDependencyException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertCarAsync(It.IsAny<Car>()),
                     Times.Never);
 
             this.datetimeBrokerMock.VerifyNoOtherCalls();
