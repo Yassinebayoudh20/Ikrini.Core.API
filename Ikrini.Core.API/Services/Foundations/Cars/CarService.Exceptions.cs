@@ -2,6 +2,7 @@
 //   Copyright © Yassine Bayoudh. All Rights Reserved. | Ikrini
 // ---------------------------------------------------------------
 
+using EFxceptions.Models.Exceptions;
 using Ikrini.Core.API.Models.Foundations.Cars;
 using Ikrini.Core.API.Models.Foundations.Cars.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -40,6 +41,15 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                         innerException: sqlException);
 
                 throw await CreateAndLogDependencyExceptionAsync(failedCarStorageException);
+            }
+            catch (DuplicateKeyException duplicatedKeyException)
+            {
+                var alreadyExistsCarException = new AlreadyExistsCarException(
+                    message: "Car already exist error occurred, contact support.",
+                    innerException: duplicatedKeyException,
+                    data: duplicatedKeyException.Data);
+
+                throw await CreateAndLogDependencyValidationExceptionAsync(alreadyExistsCarException);
             }
             catch (Exception exception)
             {
@@ -107,6 +117,16 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
                     innerException: exception);
             await this.loggingBroker.LogErrorAsync(carServiceException);
             throw carServiceException;
+        }
+
+        private async ValueTask<AlreadyExistsCarException> CreateAndLogDependencyValidationExceptionAsync(Xeption exception)
+        {
+            var carDependencyValidationException =
+                new CarDependencyValidationException(
+                    message: "Car dependency validation error occurred, contact support.",
+                    innerException: exception);
+            await this.loggingBroker.LogErrorAsync(carDependencyValidationException);
+            throw carDependencyValidationException;
         }
     }
 }
