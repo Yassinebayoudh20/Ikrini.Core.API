@@ -37,5 +37,10 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
 
                 return await this.storageBroker.InsertCarAsync(car);
             });
+
+        public ValueTask<Car> ModifyCarAsync(Car car)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
