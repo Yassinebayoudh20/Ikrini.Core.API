@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using Ikrini.Core.API.Models.Foundations.Cars;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,5 +13,6 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
     {
         ValueTask<IQueryable<Car>> RetrieveAllCarsAsync();
         ValueTask<Car> AddCarAsync(Car car);
+        ValueTask<Car> RetriveCarByIdAsync(Guid carId);
     }
 }

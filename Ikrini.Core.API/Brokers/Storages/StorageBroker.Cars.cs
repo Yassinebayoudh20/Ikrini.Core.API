@@ -33,9 +33,9 @@ namespace Ikrini.Core.API.Brokers.Storages
             throw new NotImplementedException();
         }
 
-        public ValueTask<Car> SelectCarByIdAsync(Guid carId)
+        public async ValueTask<Car> SelectCarByIdAsync(Guid carId)
         {
-            throw new NotImplementedException();
+            return await this.FindAsync<Car>(carId);
         }
     }
 }

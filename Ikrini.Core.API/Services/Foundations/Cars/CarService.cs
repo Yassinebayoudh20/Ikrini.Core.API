@@ -6,6 +6,7 @@ using Ikrini.Core.API.Brokers.Datetimes;
 using Ikrini.Core.API.Brokers.Loggings;
 using Ikrini.Core.API.Brokers.Storages;
 using Ikrini.Core.API.Models.Foundations.Cars;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,5 +38,10 @@ namespace Ikrini.Core.API.Services.Foundations.Cars
 
                 return await this.storageBroker.InsertCarAsync(car);
             });
+
+        public async ValueTask<Car> RetriveCarByIdAsync(Guid carId)
+        {
+            return await this.storageBroker.SelectCarByIdAsync(carId);
+        }
     }
 }
