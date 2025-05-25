@@ -23,9 +23,9 @@ namespace Ikrini.Core.API.Brokers.Storages
             return await this.InsertAsync<Car>(car);
         }
 
-        public ValueTask<Car> UpdateCarAsync(Car car)
+        public async ValueTask<Car> UpdateCarAsync(Car car)
         {
-            throw new NotImplementedException();
+            return await this.UpdateAsync(car);
         }
 
         public ValueTask<Car> DeleteCarAsync(Car car)
